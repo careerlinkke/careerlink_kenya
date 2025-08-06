@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Application Confirmation - CareerLink</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --orange: #ff6600;
+      --dark-bg: #121212;
+      --text-light: #f0f0f0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .confirmation-box {
+      background-color: #1e1e1e;
+      padding: 40px 30px;
+      border-radius: 10px;
+      max-width: 600px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .confirmation-box h2 {
+      font-size: 2rem;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .confirmation-box p {
+      font-size: 1.05rem;
+      color: #ddd;
+      margin-bottom: 10px;
+    }
+
+    .confirmation-box .icon {
+      font-size: 4rem;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .confirmation-box a {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: var(--orange);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    .confirmation-box a:hover {
+      background-color: #e65c00;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="confirmation-box">
+    <div class="icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h2>Submitted</h2>
+    <p>Thank you for Applying for a job with CareerLink.</p>
+    <p>Your Application has been received and is under review.</p>
+    <p>You will receive a confirmation email after the review process is completed.</p>
+
+    <a href="index.html">Back to Homepage</a>
+  </div>
+
+</body>
+</html>

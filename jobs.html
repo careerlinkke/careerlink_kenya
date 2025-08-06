@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browse Jobs – CareerLink</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: white;
+    }
+
+    /* NAVIGATION */
+    nav {
+      background: #111;
+      padding: 15px 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 28px;
+      color: #ff7a29;
+      font-weight: bold;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      background: white;
+      height: 3px;
+      width: 25px;
+      margin: 4px 0;
+      transition: 0.3s;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #ff7a29;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: #111;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+    }
+
+    /* SEARCH BAR */
+    .search-bar {
+      padding: 20px 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-bar input {
+      width: 60%;
+      padding: 12px;
+      border-radius: 30px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      background: #1a1a1a;
+      color: white;
+    }
+
+    .search-bar button {
+      background-color: #ff7a29;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .search-bar button:hover {
+      background-color: #e96a16;
+    }
+
+    .container {
+      padding: 30px 10%;
+    }
+
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .job-card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #333;
+      transition: transform 0.3s ease;
+    }
+
+    .job-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .job-card h3 {
+      color: #ff7a29;
+      margin-bottom: 10px;
+    }
+
+    .job-card p {
+      font-size: 15px;
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+
+    .job-card .salary {
+      color: #00ffb7;
+      font-weight: bold;
+    }
+
+    .apply-btn {
+      display: inline-block;
+      background-color: #ff7a29;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 15px;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+
+    .apply-btn:hover {
+      background-color: #e96a16;
+    }
+
+    footer {
+      background: #111;
+      color: #ccc;
+      padding: 40px 10%;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .footer-section {
+      flex: 1;
+      min-width: 200px;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section ul li a:hover {
+      color: #ff7a29;
+    }
+
+    .socials i {
+      font-size: 18px;
+      margin-right: 10px;
+      color: #ccc;
+      transition: color 0.3s;
+    }
+
+    .socials i:hover {
+      color: #ff7a29;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      border-top: 1px solid #333;
+      padding-top: 15px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="logo">CAREERLINK</div>
+    <div class="nav-toggle" id="nav-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <!-- SEARCH -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search jobs by title, location, or type...">
+    <button onclick="searchJobs()">Search</button>
+  </div>
+
+  <!-- JOB LISTINGS -->
+  <div class="container">
+    <div class="job-grid" id="jobGrid">
+
+      <!-- You can paste 10 job cards here or dynamically add them -->
+      <!-- Sample Job Card -->
+      <div class="job-card">
+        <h3>Receptionist</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+        <p class="salary">Ksh 32,000/month</p>
+        <p>Front desk role requiring strong communication and organization skills.</p>
+        <a href="apply.html" class="apply-btn">Apply Now</a>
+      </div>
+
+      <div class="job-card">
+        <h3>Waitress</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Kilimani, Nairobi</p>
+        <p class="salary">Ksh 28,000/month</p>
+        <p>Friendly and energetic team member for fast-paced restaurant service.</p>
+        <a href="apply.html" class="apply-btn">Apply Now</a>
+      </div>
+
+      <div class="job-card">
+        <h3>Shop Attendant</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Donholm, Nairobi</p>
+        <p class="salary">Ksh 25,000/month</p>
+        <p>Retail assistant needed to manage stock and customer relations.</p>
+        <a href="apply.html" class="apply-btn">Apply Now</a>
+      </div>
+
+      <div class="job-card">
+  <h3>Shop Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Donholm, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Retail assistant needed to manage stock and customer relations.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Receptionist</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Front desk receptionist with strong communication skills.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Delivery Rider</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South B, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Motorbike rider needed for local deliveries around Nairobi.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Waiter/Waitress</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kilimani, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Energetic individual needed to serve customers in a busy café.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Customer Care Agent</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Customer service representative with experience in call center support.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Data Entry Clerk</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Parklands, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Seeking accurate and fast typist to input and organize company data.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Housekeeper</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Lavington, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Experienced housekeeper needed for private residence cleaning duties.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Sales Representative</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Roysambu, Nairobi</p>
+  <p class="salary">Ksh 32,000/month</p>
+  <p>Motivated sales rep needed for field marketing and client engagement.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cashier</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja, Nairobi</p>
+  <p class="salary">Ksh 26,500/month</p>
+  <p>Cashier required for busy retail shop, must be trustworthy and quick.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Office Messenger</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ngara, Nairobi</p>
+  <p class="salary">Ksh 24,000/month</p>
+  <p>Reliable office runner needed to handle documents and errands.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Digital Marketer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+  <p class="salary">Ksh 39,000/month</p>
+  <p>Digital marketing expert needed for social media campaigns and SEO.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cook</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kileleshwa, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Skilled cook required for a small restaurant serving local cuisine.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Salonist</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Zimmerman, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Professional salonist needed for hair styling and customer care.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Plumber</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Embakasi, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Qualified plumber needed for installation and repair work.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Laundry Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kahawa West, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Staff needed for washing, folding, and ironing in busy laundromat.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Electrician</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariobangi, Nairobi</p>
+  <p class="salary">Ksh 36,000/month</p>
+  <p>Certified electrician required for residential and commercial wiring projects.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Administrative Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South C, Nairobi</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Office assistant needed for clerical work, scheduling, and record-keeping.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Storekeeper</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ruaka, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Responsible storekeeper required to manage inventory and stock reports.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Baker</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gikambura, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Experienced baker wanted to prepare fresh bread and pastries daily.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Call Center Agent</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 34,000/month</p>
+  <p>Call center staff needed to handle customer inquiries and complaints.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Mechanic</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gikambura, Nairobi</p>
+  <p class="salary">Ksh 37,000/month</p>
+  <p>Skilled mechanic needed for vehicle diagnostics and repairs.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>HR Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Upper Hill, Nairobi</p>
+  <p class="salary">Ksh 38,500/month</p>
+  <p>Assistant needed to support recruitment and employee management.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Photographer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Creative photographer required for events and product shoots.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Nanny</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Runda, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Caring nanny needed to look after two young children at a private residence.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Warehouse Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Baba Dogo, Nairobi</p>
+  <p class="salary">Ksh 31,000/month</p>
+  <p>Staff required to help with goods receiving, packing, and stock movement.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Social Media Manager</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kilimani, Nairobi</p>
+  <p class="salary">Ksh 40,000/month</p>
+  <p>Creative social media manager needed to grow brand presence online.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Accounts Clerk</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Clerk required to manage petty cash, invoices, and basic bookkeeping.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Field Sales Executive</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Donholm, Nairobi</p>
+  <p class="salary">Ksh 37,000/month</p>
+  <p>Outgoing sales executive needed to promote services door-to-door.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Personal Driver</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Lavington, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Driver with valid license and clean record required for private residence.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Stock Controller</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Industrial Area, Nairobi</p>
+  <p class="salary">Ksh 34,000/month</p>
+  <p>Detail-oriented individual needed to monitor and reconcile inventory levels.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Beauty Therapist</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kasarani, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Licensed beautician needed for facials, waxing, and skincare services.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Kitchen Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South B, Nairobi</p>
+  <p class="salary">Ksh 26,500/month</p>
+  <p>Support staff needed to assist cooks with food prep and kitchen duties.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cleaner (Night Shift)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gigiri, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Responsible cleaner required for commercial building night shift duties.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Event Coordinator</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+  <p class="salary">Ksh 38,000/month</p>
+  <p>Event planner needed for corporate and private event execution.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Tailor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gikambura, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Experienced tailor wanted for clothing repair and custom fittings.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Chef</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Karen, Nairobi</p>
+  <p class="salary">Ksh 40,000/month</p>
+  <p>Experienced chef needed for fine dining restaurant, must know continental cuisine.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>IT Intern</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ngong Road, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Recent graduate required to assist IT team with software and network tasks.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Pet Groomer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Thome, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Groomer needed to wash, trim, and care for pets in a modern pet spa.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Logistics Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Syokimau, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Support staff required to manage transport schedules and delivery records.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Pharmacy Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Buruburu, Nairobi</p>
+  <p class="salary">Ksh 32,000/month</p>
+  <p>Assistant needed to dispense prescriptions and manage over-the-counter sales.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Gardener</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ruiru, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Skilled gardener needed for landscaping and grounds maintenance.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Printing Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 29,500/month</p>
+  <p>Support assistant needed to help with printing, binding, and lamination services.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Receptionist (Salon)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Pangani, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Receptionist needed for a busy beauty salon to manage bookings and walk-ins.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Juice Bar Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kasarani, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Energetic person needed to prepare and serve fresh juices and smoothies.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Sales Intern</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Intern needed to assist sales team with market outreach and client follow-ups.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Butchery Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kangemi, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Assistant needed to cut, clean and pack meat in a busy butchery.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>MPesa Agent</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kayole, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Honest agent needed to run MPesa and utility payment services.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cyber Cafe Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Computer literate person needed to assist customers and manage printing services.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Matatu Conductor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD to Githurai route</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Energetic conductor needed for a PSV on a busy Nairobi route.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Shop Cashier</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ruai, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Cashier required to manage sales, handle stock, and serve customers.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Water Vendor Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Pipeline, Nairobi</p>
+  <p class="salary">Ksh 24,000/month</p>
+  <p>Assistant needed to help deliver and refill water jerrycans door to door.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Garment Ironing Staff</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gikomba, Nairobi</p>
+  <p class="salary">Ksh 26,500/month</p>
+  <p>Fast ironer needed to press second-hand clothes for resale.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Milk ATM Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Dandora, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Reliable person needed to operate a milk vending machine and maintain hygiene.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Photocopy Operator</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 27,500/month</p>
+  <p>Staff needed to handle printing, scanning, and lamination services at a cyber café.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Grocery Shop Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Githurai 45, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Attendant needed to sell vegetables, handle payments, and keep the stall clean.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Hardware Store Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Zimmerman, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Assistant needed to serve customers and manage construction inventory.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cook (Chips & Sausages)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariobangi North, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Fast food cook needed to prepare fries, sausages, and smokies for takeaway outlet.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Mini Supermarket Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja 2, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Multi-tasking staff needed for sales, stocking shelves, and cleaning duties.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Boda Boda Rider (Errands)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Komarock, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Rider needed for parcel and errand services across Nairobi estates.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Juakali Artisan (Welding)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariobangi Light Industries, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Experienced fundi needed for welding gates, windows, and furniture frames.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Fruit Vendor Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kasarani, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Support needed in sorting, cutting, and selling fruits at roadside stand.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Househelp (Live-out)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South B, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Reliable lady needed for cleaning, laundry, and occasional cooking.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Battery Charging Shop Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Mathare North, Nairobi</p>
+  <p class="salary">Ksh 24,500/month</p>
+  <p>Operator needed for phone and torch battery charging business.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Mitumba Seller</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gikomba, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Experienced mitumba seller needed to manage stall and handle customers.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Security Guard (Night Shift)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Loresho, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Guard required to watch over gated property from 6PM to 6AM.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Gas Delivery Rider</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kahawa Sukari, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Motorbike rider needed for LPG gas cylinder deliveries to homes.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Vegetable Cutter (Hotel)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Eastleigh, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Kitchen helper needed to wash and chop vegetables for hotel kitchen.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>TV Technician</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariokor, Nairobi</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Experienced technician needed for TV and electronic repairs in busy shop.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Petty Trader (Snacks)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Pipeline, Nairobi</p>
+  <p class="salary">Ksh 26,500/month</p>
+  <p>Hawker needed to sell mandazi, samosas, and boiled eggs near bus stop.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Tailoring Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kawangware, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Assistant tailor needed for measuring, hand sewing and hemming clothes.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cereal Shop Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ruiru, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Person required to serve customers, weigh grains, and pack in sacks.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Callbox Operator</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kibera, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Agent needed to manage phone calls, airtime sales, and phone charging services.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Salon Hair Washer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja 1, Nairobi</p>
+  <p class="salary">Ksh 25,500/month</p>
+  <p>Hair washer needed to assist stylists in a busy neighborhood salon.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Trench Digger (Construction)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Embakasi, Nairobi</p>
+  <p class="salary">Ksh 29,500/month</p>
+  <p>Laborer needed for trench digging, piping, and site clearing.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Delivery Helper</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Industrial Area, Nairobi</p>
+  <p class="salary">Ksh 28,500/month</p>
+  <p>Helper needed to load, offload, and accompany van deliveries across Nairobi.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Barber</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja 3, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Skilled barber needed for fades, dreadlocks, and beard grooming in busy shop.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Garbage Collection Staff</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariobangi South, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Responsible worker needed for waste pickup and environmental cleaning.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Ice Cream Vendor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> City Park, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Vendor required to operate ice cream cart and attend to park visitors.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Butcher</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kawangware, Nairobi</p>
+  <p class="salary">Ksh 32,000/month</p>
+  <p>Experienced butcher required to manage meat cuts, hygiene, and weighing.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Loading Staff (Jua Kali Hardware)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Mwiki, Nairobi</p>
+  <p class="salary">Ksh 28,500/month</p>
+  <p>Team needed to load building materials like cement, nails, and iron sheets.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Car Wash Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Donholm, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Hardworking attendant needed to wash cars, wipe interiors, and vacuum.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Mobile Accessories Seller</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Moi Avenue, Nairobi CBD</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Salesperson needed to sell earphones, chargers, and screen guards at stall.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Chips Mwitu Vendor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Githurai 44, Nairobi</p>
+  <p class="salary">Ksh 25,500/month</p>
+  <p>Cook needed to prepare and serve fries and bhajia at roadside kibanda.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Fishmonger</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kangundo Road, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Fishmonger wanted to clean, cut, and sell fish in a high-traffic estate.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Second-hand Shoe Seller</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gikomba, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Vendor required to sort and sell mitumba shoes and sandals at open-air market.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Matatu Conductor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kangemi, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Energetic conductor needed for daily matatu routes in Westlands-Kangemi area.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Laundry Worker</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South B, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Dedicated laundry staff required for washing, ironing, and folding clothes.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Phone Repair Technician</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Luthuli Avenue, Nairobi</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Technician needed for screen replacements, battery changes, and board repairs.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Juakali Welder</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Grogon, Nairobi</p>
+  <p class="salary">Ksh 32,500/month</p>
+  <p>Skilled welder needed for fabrication of doors, gates, and metal frames.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Food Delivery Rider</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kilimani, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Motorbike rider needed to deliver food to clients within Nairobi suburbs.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Online Shop Packer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Industrial Area, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Warehouse assistant needed for packing and labeling online orders for shipment.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Fruit & Veg Seller</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Pipeline, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Seller needed to manage daily stock of fruits and vegetables in estate kiosk.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Sacco Clerk</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 34,000/month</p>
+  <p>Reliable clerk required to manage member contributions, withdrawals, and records.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>School Cleaner</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kasarani, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Cleaner needed to maintain hygiene in classrooms, offices, and washrooms.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Tailor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Embakasi West, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Experienced tailor needed for school uniforms, suits, and dress alterations.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>CCTV Technician</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+  <p class="salary">Ksh 38,000/month</p>
+  <p>Technician needed to install, troubleshoot, and maintain CCTV and alarm systems.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Boda Boda Mechanic</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja Innercore, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Motorbike mechanic needed for routine service, engine repairs, and diagnostics.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cashier (Mini-Supermarket)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Tassia, Nairobi</p>
+  <p class="salary">Ksh 30,500/month</p>
+  <p>Cashier required to manage daily sales, till operation, and receipts.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Estate Security Guard</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South C, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Vigilant guard needed to man gate, log visitors, and patrol estate compound.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Photocopy & Typing Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Nairobi CBD (Opp. Archives)</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Assistant needed to type documents, print CVs, and bind academic papers.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Water Vendor Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariobangi South, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Assistant needed to help in water delivery using push carts in local estates.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Hardware Store Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Support staff needed for stock handling and assisting customers with orders.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>M-PESA Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Komarock, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Trustworthy agent needed to operate M-PESA and Airtel Money services.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Barber</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Eastleigh, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Experienced barber required for fades, shaves, and grooming services.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Housekeeper (Residential)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kileleshwa, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Housekeeper needed for cleaning, laundry, and basic cooking in private home.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Mini-bakery Baker</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kayole, Nairobi</p>
+  <p class="salary">Ksh 27,500/month</p>
+  <p>Baker needed to prepare mandazis, buns, and simple pastries for daily sale.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Data Entry Clerk</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 34,000/month</p>
+  <p>Fast and accurate typist needed to update digital records and logs.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Waitress</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Rongai, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Friendly waitress needed to serve food and drinks at a busy hotel.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Garbage Collection Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Zimmerman, Nairobi</p>
+  <p class="salary">Ksh 25,500/month</p>
+  <p>Team member needed to assist in garbage collection in estates and flats.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Salon Braider</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Donholm, Nairobi</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Braider needed for natural hair styling, cornrows, and weaves installation.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Delivery Van Loader</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Industrial Area, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Loader needed to pack and arrange delivery items in van routes daily.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>School Bus Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kasarani, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Friendly attendant needed to manage student safety during pick and drop.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Shop Cashier</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Nairobi West, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Cashier needed for general goods shop to operate till and handle payments.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Butchery Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariobangi North, Nairobi</p>
+  <p class="salary">Ksh 31,000/month</p>
+  <p>Meat handler required to serve customers and maintain hygiene in butchery.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Camera Operator (Events)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Lang’ata, Nairobi</p>
+  <p class="salary">Ksh 36,000/month</p>
+  <p>Photographer/videographer needed to shoot weddings, birthdays, and promos.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cyber Cafe Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South B, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Attendant needed to assist clients with printing, scanning, and internet use.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Shoe Shiner</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Nairobi CBD</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Skilled shoe shiner needed for high-traffic location outside commercial buildings.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cashier (Mini-Supermarket)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Githurai, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Reliable cashier needed to operate POS system and handle daily sales reports.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Photocopy Machine Operator</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ngara, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Experienced operator needed to run photocopy, binding, and lamination services.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Gas Delivery Rider</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja 2, Nairobi</p>
+  <p class="salary">Ksh 32,000/month</p>
+  <p>Motorbike rider needed to deliver cooking gas to households and businesses.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Stockroom Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Industrial Area, Nairobi</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Assist with inventory management, labeling, and storage in busy warehouse.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Juice Blender Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Buruburu, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Prepare and serve fresh juice blends and fruit salads at smoothie bar.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Cleaner (Office)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Upperhill, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Maintain office hygiene through daily cleaning and light janitorial tasks.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Boda Boda Operator</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Roysambu, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Experienced rider with own motorbike needed for regular parcel deliveries.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Security Guard (Residential)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Lavington, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Night shift guard needed for secure gated apartments. Must be licensed.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Meat Packer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariobangi Light Industries, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Responsible for cutting, weighing, and packing meat products hygienically.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Tailor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gikomba, Nairobi</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Tailor needed for mass production of school uniforms and alterations.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Shopkeeper (General Store)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kayole, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Manage general store operations including sales, restocking, and record-keeping.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Ice Cream Seller</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Uhuru Highway, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Vendor needed to sell ice cream to pedestrians and park visitors using mobile cart.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Online Shop Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ruaka, Nairobi</p>
+  <p class="salary">Ksh 34,000/month</p>
+  <p>Help manage e-commerce orders, WhatsApp customer support, and deliveries.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Hardware Store Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kariobangi South, Nairobi</p>
+  <p class="salary">Ksh 31,000/month</p>
+  <p>Assist customers in selecting construction materials and maintaining stock levels.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Pastry Chef</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+  <p class="salary">Ksh 38,000/month</p>
+  <p>Experienced in baking cakes, pastries, and handling bulk orders.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Receptionist</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kilimani, Nairobi</p>
+  <p class="salary">Ksh 36,000/month</p>
+  <p>Friendly and organized individual needed to manage front desk and bookings.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Garbage Collection Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Dandora, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Team player needed to assist with garbage pickups in residential areas.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Laundry Machine Operator</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Parklands, Nairobi</p>
+  <p class="salary">Ksh 32,000/month</p>
+  <p>Handle industrial washing and drying machines for laundry business.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Photographer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South C, Nairobi</p>
+  <p class="salary">Ksh 40,000/month</p>
+  <p>Talented photographer needed for event coverage and editing skills.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Milk Dispenser Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ruai, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Run milk ATM operations and maintain hygiene of containers and machine.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Sales Representative (Cosmetics)</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Eastleigh, Nairobi</p>
+  <p class="salary">Ksh 34,000/month</p>
+  <p>Sell beauty products in wholesale and retail environment with commissions.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Pet Groomer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Loresho, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Experienced with cats and dogs; trimming, bathing, and styling needed.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Fruit Vendor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Gikambura, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Fresh fruits sales on roadside stall. Must be punctual and clean.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Internet Installer Technician</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Umoja 1, Nairobi</p>
+  <p class="salary">Ksh 38,000/month</p>
+  <p>Install and troubleshoot home/office WiFi and fiber internet systems.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Vegetable Vendor</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Pipeline, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Sell sukuma, onions, and tomatoes in local market kiosk. Early morning job.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Phone Repair Technician</h3>
+  <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+  <p class="salary">Ksh 37,000/month</p>
+  <p>Diagnose and fix smartphones, tablets, and accessories in busy shop.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Restaurant Steward</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kasarani, Nairobi</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Clean dishes, help in kitchen prep, and maintain hygiene standards.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Call Center Agent</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Nairobi West, Nairobi</p>
+  <p class="salary">Ksh 35,000/month</p>
+  <p>Handle inbound and outbound customer calls for a financial institution.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Waiter/Waitress</h3>
+  <p><i class="fas fa-map-marker-alt"></i> South B, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Experienced waiter needed for local restaurant with good communication skills.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Community Health Volunteer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kibera, Nairobi</p>
+  <p class="salary">Ksh 25,000/month</p>
+  <p>Support health education and door-to-door health services in the community.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Petrol Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Lang’ata, Nairobi</p>
+  <p class="salary">Ksh 29,000/month</p>
+  <p>Pump fuel, check oil levels, and handle cash transactions.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Graphic Designer</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ngara, Nairobi</p>
+  <p class="salary">Ksh 38,000/month</p>
+  <p>Design posters, logos, and social media ads for local businesses.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Car Wash Attendant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kangundo Road, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Clean interior and exterior of cars; must be fast and attentive to detail.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Photocopy & Printing Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Town Campus, Nairobi</p>
+  <p class="salary">Ksh 27,000/month</p>
+  <p>Operate printers, photocopy machines, and assist with scanning tasks.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Baker</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Kasarani, Nairobi</p>
+  <p class="salary">Ksh 36,000/month</p>
+  <p>Prepare bread, cakes, and pastries in a fast-paced bakery environment.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Security Guard</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Thome Estate, Nairobi</p>
+  <p class="salary">Ksh 33,000/month</p>
+  <p>Guard property, monitor CCTV, and report suspicious activity.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Shop Cashier</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Pipeline, Nairobi</p>
+  <p class="salary">Ksh 31,000/month</p>
+  <p>Operate POS machine, issue receipts, and balance daily transactions.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Shoe Shiner</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Nairobi Railways Stage</p>
+  <p class="salary">Ksh 24,000/month</p>
+  <p>Shine, polish, and clean shoes for walk-in clients at busy stage.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Poultry Farm Worker</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Ruai, Nairobi</p>
+  <p class="salary">Ksh 30,000/month</p>
+  <p>Feed, clean, and monitor health of chickens and collect eggs daily.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Sales Clerk</h3>
+  <p><i class="fas fa-map-marker-alt"></i> TRM, Nairobi</p>
+  <p class="salary">Ksh 34,000/month</p>
+  <p>Support retail store with inventory, tagging, and customer support.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Interior Cleaner</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Donholm, Nairobi</p>
+  <p class="salary">Ksh 26,000/month</p>
+  <p>Clean sofas, carpets, and interior decor using vacuum and special tools.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Printing Press Operator</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Baba Dogo, Nairobi</p>
+  <p class="salary">Ksh 38,000/month</p>
+  <p>Operate and maintain offset and digital printing machines for bulk jobs.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+<div class="job-card">
+  <h3>Bakery Delivery Assistant</h3>
+  <p><i class="fas fa-map-marker-alt"></i> Nairobi CBD</p>
+  <p class="salary">Ksh 28,000/month</p>
+  <p>Support bakery logistics by delivering fresh bread and cakes to outlets.</p>
+  <a href="apply.html" class="apply-btn">Apply Now</a>
+</div>
+
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="jobs.html">Browse Jobs</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <p><i class="fas fa-phone"></i> +254102960463</p>
+        <p><i class="fas fa-envelope"></i> careerlinkke@gmail.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+      </div>
+
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="socials">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 CareerLink. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Toggle dropdown menu
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+      document.getElementById('nav-links').classList.toggle('active');
+    });
+
+    // Search functionality
+    function searchJobs() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.job-card');
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(input) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

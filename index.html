@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CareerLink - Your Job Connection</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --dark-bg: #0d1117;
+      --light-text: #f5f5f5;
+      --orange: #ff6600;
+      --section-bg: #1e1e1e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--light-text);
+    }
+
+    header {
+      background-color: #121212;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      color: var(--orange);
+      font-weight: bold;
+    }
+
+    nav {
+      position: relative;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      color: var(--light-text);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: var(--orange);
+    }
+
+    /* Dropdown */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #1c1c1c;
+      min-width: 180px;
+      right: 0;
+      top: 30px;
+      border-radius: 4px;
+      z-index: 999;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: var(--light-text);
+      font-size: 0.95rem;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #333;
+      color: var(--orange);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1605902711622-cfb43c4437d4?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      padding: 30px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: var(--orange);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      background-color: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #e55a00;
+    }
+
+    .featured-jobs {
+      background-color: var(--section-bg);
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .featured-jobs h2 {
+      color: var(--orange);
+      margin-bottom: 30px;
+    }
+
+    .job-listing {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .job-card {
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 8px;
+      width: 270px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: left;
+    }
+
+    .job-card h3 {
+      margin-bottom: 8px;
+      color: var(--orange);
+    }
+
+    .job-card p {
+      margin: 6px 0;
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+
+    .job-card .apply-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: var(--orange);
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+
+    footer {
+      background-color: #111;
+      padding: 40px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .footer-section {
+      max-width: 300px;
+      margin-bottom: 20px;
+    }
+
+    .footer-section h4 {
+      color: var(--orange);
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .footer-section ul li a {
+      color: #ccc;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--orange);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      width: 100%;
+    }
+
+    .floating-buttons {
+      position: fixed;
+      bottom: 30px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 999;
+    }
+
+    .floating-buttons a {
+      background-color: var(--orange);
+      color: white;
+      padding: 12px 14px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .floating-buttons a:hover {
+      background-color: #e55a00;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        gap: 15px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .job-card {
+        width: 100%;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">CareerLink</div>
+    <nav>
+      <ul>
+        <li class="dropdown">
+          <a href="#">Menu <i class="fas fa-caret-down"></i></a>
+          <div class="dropdown-content">
+            <a href="index.html">Home</a>
+            <a href="jobs.html">Browse Jobs</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Your Career Starts Here</h1>
+      <p>Discover genuine job opportunities in Nairobi and across Kenya.</p>
+      <a href="jobs.html" class="btn">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Featured Jobs -->
+  <section class="featured-jobs">
+    <h2>Featured Jobs</h2>
+    <div class="job-listing">
+      <div class="job-card">
+        <h3>Shop Attendant</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Donholm, Nairobi</p>
+        <p>Ksh 25,000/month</p>
+        <p>Retail assistant needed to manage stock and customer relations.</p>
+        <a href="apply.html" class="apply-btn">Apply Now</a>
+      </div>
+
+      <div class="job-card">
+        <h3>Data Entry Clerk</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi</p>
+        <p>Ksh 30,000/month</p>
+        <p>Organized individual needed to input company data accurately and timely.</p>
+        <a href="apply.html" class="apply-btn">Apply Now</a>
+      </div>
+
+      <div class="job-card">
+        <h3>Customer Care Representative</h3>
+        <p><i class="fas fa-map-marker-alt"></i> CBD, Nairobi</p>
+        <p>Ksh 28,000/month</p>
+        <p>Friendly and patient customer support agent needed for inbound calls.</p>
+        <a href="apply.html" class="apply-btn">Apply Now</a>
+      </div>
+
+      <div class="job-card">
+        <h3>Rider/Delivery Assistant</h3>
+        <p><i class="fas fa-map-marker-alt"></i> South B, Nairobi</p>
+        <p>Ksh 27,500/month</p>
+        <p>Reliable motorbike rider required for fast food and parcel deliveries.</p>
+        <a href="apply.html" class="apply-btn">Apply Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating WhatsApp & Email -->
+  <div class="floating-buttons">
+    <a href="https://wa.me/254102960463" target="_blank" title="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="mailto:careerlinkke@gmail.com" title="Send Email"><i class="fas fa-envelope"></i></a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="jobs.html">💼 Browse Jobs</a></li>
+        <li><a href="contact.html">📧 Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>About CareerLink</h4>
+      <p>We help job seekers in Kenya find verified jobs while connecting employers with genuine talent.</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <ul>
+        <li>Email: careerlinkke@gmail.com</li>
+        <li>Phone: +254 102 960 463</li>
+        <li>Location: Nairobi, Kenya</li>
+      </ul>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; 2025 CareerLink. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>

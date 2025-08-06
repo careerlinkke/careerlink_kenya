@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - CareerLink</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --orange: #ff6600;
+      --dark-bg: #121212;
+      --light-text: #f4f4f4;
+      --footer-bg: #1c1c1c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--light-text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      font-weight: 500;
+      color: var(--light-text);
+    }
+
+    nav a:hover {
+      color: var(--orange);
+    }
+
+    .contact-container {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: auto;
+      flex: 1;
+    }
+
+    .contact-container h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: var(--orange);
+      text-align: center;
+    }
+
+    form {
+      background-color: #1f1f1f;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    form label {
+      display: block;
+      margin: 15px 0 5px;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background-color: #2a2a2a;
+      color: white;
+      font-size: 1rem;
+    }
+
+    form textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    form button {
+      margin-top: 20px;
+      background-color: var(--orange);
+      color: white;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #e65c00;
+    }
+
+    footer {
+      background-color: var(--footer-bg);
+      padding: 40px 40px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      color: #ccc;
+    }
+
+    .footer-section {
+      flex: 1;
+      margin: 10px;
+      min-width: 200px;
+    }
+
+    .footer-section h4 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: var(--orange);
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li a {
+      color: #ccc;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--orange);
+    }
+
+    .footer-bottom {
+      width: 100%;
+      text-align: center;
+      padding-top: 30px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .floating-button {
+      position: fixed;
+      bottom: 30px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+    }
+
+    .floating-button a {
+      width: 50px;
+      height: 50px;
+      background-color: var(--orange);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    .floating-button a:hover {
+      background-color: #e65500;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .footer-section {
+        flex: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">CareerLink</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="jobs.html">BROWSE JOBS</a></li>
+        <li><a href="contact.html">CONTACT</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Contact Form Section -->
+  <div class="contact-container">
+    <h2>Contact Us</h2>
+    <form action="mailto:careerlinkke@gmail.com" method="post" enctype="text/plain">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="Name" required />
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="Email" required />
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="Phone" required />
+
+      <label for="message">Your Message</label>
+      <textarea id="message" name="Message" required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="jobs.html">💼 Browse Jobs</a></li>
+        <li><a href="apply.html">📝 Apply</a></li>
+        <li><a href="payment.html">💳 Payment</a></li>
+        <li><a href="contact.html">📧 Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <ul>
+        <li>Email: <a href="mailto:careerlinkke@gmail.com">careerlinkke@gmail.com</a></li>
+        <li>WhatsApp: <a href="https://wa.me/254102960463">+254 102 960463</a></li>
+        <li>Location: Nairobi, Kenya</li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>About CareerLink</h4>
+      <p>We connect Kenyan job seekers with verified employers through a simplified application process and fair opportunities across various industries.</p>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; 2025 CareerLink. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Floating Buttons -->
+  <div class="floating-button">
+    <a href="https://wa.me/254102960463" target="_blank" title="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="mailto:careerlinkke@gmail.com" title="Email CareerLink"><i class="fas fa-envelope"></i></a>
+  </div>
+
+</body>
+</html>

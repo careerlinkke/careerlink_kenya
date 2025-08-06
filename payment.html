@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment - CareerLink</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --orange: #ff6600;
+      --dark-bg: #121212;
+      --footer-bg: #1c1c1c;
+      --text-light: #f0f0f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      font-weight: 500;
+      color: var(--text-light);
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: var(--orange);
+    }
+
+    .payment-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 80px 20px;
+      flex: 1;
+      text-align: center;
+    }
+
+    .payment-container h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--orange);
+    }
+
+    .payment-container p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+
+    .copy-number {
+      background-color: #1e1e1e;
+      border: 1px solid #444;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 25px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .copy-number span {
+      font-weight: 500;
+    }
+
+    .copy-btn {
+      background-color: var(--orange);
+      border: none;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    form input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background-color: #1c1c1c;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    form button {
+      background-color: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      margin-top: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #e65c00;
+    }
+
+    footer {
+      background-color: var(--footer-bg);
+      padding: 40px 40px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      color: #ccc;
+    }
+
+    .footer-section {
+      flex: 1;
+      margin: 10px;
+      min-width: 200px;
+    }
+
+    .footer-section h4 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: var(--orange);
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li a {
+      color: #ccc;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--orange);
+    }
+
+    .footer-bottom {
+      width: 100%;
+      text-align: center;
+      padding-top: 30px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .floating-button {
+      position: fixed;
+      bottom: 30px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+    }
+
+    .floating-button a {
+      width: 50px;
+      height: 50px;
+      background-color: var(--orange);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      text-decoration: none;
+    }
+
+    .floating-button a:hover {
+      background-color: #e65c00;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .footer-section {
+        flex: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">CareerLink</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Payment Section -->
+  <div class="payment-container">
+    <h2>Complete Your Payment</h2>
+    <p>Please send <strong>Ksh 950</strong> via Airtel Money to the number below (PATRICK MUTURI):</p>
+
+    <div class="copy-number">
+      <span>0102960463</span>
+      <button class="copy-btn" onclick="copyNumber()">Copy</button>
+    </div>
+
+    <p>After sending payment, enter your transaction code below to proceed.</p>
+
+    <form id="paymentForm">
+      <input type="text" id="transaction" name="transaction" placeholder="Enter your transaction code" required />
+      <button type="submit">Submit Payment</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="jobs.html">💼 Browse Jobs</a></li>
+        <li><a href="apply.html">📝 Apply</a></li>
+        <li><a href="payment.html">💳 Payment</a></li>
+        <li><a href="contact.html">📧 Contact</a></li>
+        <li><a href="about.html">📄 About Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <ul>
+        <li>Email: <a href="mailto:careerlinkke@gmail.com">careerlinkke@gmail.com</a></li>
+        <li>WhatsApp: <a href="https://wa.me/254102960463">+254 102 960463</a></li>
+        <li>Location: Nairobi, Kenya</li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>About CareerLink</h4>
+      <p>We connect Kenyan job seekers with verified employers through a simple, affordable and transparent system.</p>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; 2025 CareerLink. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Floating Contact Buttons -->
+  <div class="floating-button">
+    <a href="https://wa.me/254102960463" target="_blank" title="WhatsApp Us">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="mailto:careerlinkke@gmail.com" title="Email CareerLink">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
+
+  <!-- Script for copy and redirect -->
+  <script>
+    function copyNumber() {
+      const number = "0102960463";
+      navigator.clipboard.writeText(number).then(() => {
+        alert("Payment number copied to clipboard.");
+      });
+    }
+
+    document.getElementById("paymentForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const transaction = document.getElementById("transaction").value.trim();
+
+      if (transaction === "") {
+        alert("Please enter your transaction code.");
+        return;
+      }
+
+      // Redirect to confirmation page
+      window.location.href = "confirmation.html";
+    });
+  </script>
+
+</body>
+</html>
